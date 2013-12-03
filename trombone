@@ -7,7 +7,10 @@ import Tomboy.reader as Import
 def main():
     collection = Output.Collection(sys.stdout)
     for filename in sys.argv[1:]:
+        print >>sys.stderr, 'Importing {0}\n'.format(filename)
         incoming = Import.Note(filename)
+
+        print >>sys.stderr, '>> Title: {0}\n'.format(incoming.title)
         collection.addNote(Output.Note(
             title = incoming.title,
             lastchange = incoming.lastchange,
@@ -15,6 +18,8 @@ def main():
             content = incoming.body_html
         ))
 
+
+    print >> sys.stderr, 'Saving...'
     collection.save()
 
 

@@ -64,11 +64,15 @@ class Note(object):
             node.tagName =  'b'
         if node.tagName in ('italic',):
             node.tagName =  'i'
-        if node.tagName in ('link:internal',):
-            node.tagName =  'u'
+        if node.tagName in ('link:internal', 'link:broken'):
+            node.tagName =  'code'
         if node.tagName in ('link:external', 'link:url'):
             node.tagName =  'a'
             node.setAttribute('href', getText(node.childNodes))
+
+        if node.tagName.startswith('size:'):
+            node.tagName = node.tagName[5:]
+
         for i in node.childNodes:
             if i.nodeType == i.ELEMENT_NODE:
                 cls.fixNode(i)

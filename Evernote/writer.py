@@ -14,6 +14,16 @@ class Note(object):
         for i, v in kw.iteritems():
             setattr(self, i, v)
 
+    RE_SECTION_BREAKS = re.compile(r'(?mu)\n\n(.*)\n\n')
+    RE_NEWLINE = re.compile(r'\n')
+    RE_TABSPACING = re.compile(r'\t')
+
+    @classmethod
+    def adjustWhitespace(cls, content):
+        content = cls.RE_SECTION_BREAKS.sub('<br/>\\1<br/></div>\n<div>', content)
+        content = cls.RE_TABSPACING.sub('&nbsp;' * 4, content)
+        content = cls.RE_NEWLINE.sub('<br/>\n', content)
+        return content
 
     @property
     def output(self):
@@ -30,7 +40,7 @@ class Note(object):
         yield '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
         yield '<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">\n'
         yield '<en-note style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">\n'
-        yield content 
+        yield self.adjustWhitespace(content)
         yield '</en-note>]]></content>\n'
         yield '<created>' + create_time + '</created>\n'
         yield '<updated>' + update_time + '</updated>\n'
@@ -63,7 +73,8 @@ class Collection(object):
                 appversion = self.APPLICATION_VERSION
             )
         for note in self.notes:
-            yield ''.join(list(note.output))
+            yield u''.join(list(note.output)).encode('utf8')
+        
         yield '</en-export>'
 
 
