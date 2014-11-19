@@ -54,12 +54,14 @@ class Note(object):
             return node
         if node.tagName in ('note-content',):
             node.tagName = 'div'
-            node.removeAttribute('version')
+            if node.hasAttribute('version'):
+                node.removeAttribute('version')
         if node.tagName in ('list',):
             node.tagName = 'ul'
         if node.tagName in ('list-item',):
             node.tagName =  'li'
-            node.removeAttribute('dir')
+            if node.hasAttribute('dir'):
+                node.removeAttribute('dir')
         if node.tagName in ('strikethrough',):
             node.tagName =  'strike'
         if node.tagName in ('bold',):
