@@ -66,9 +66,15 @@ class Note(object):
             node.tagName =  'i'
         if node.tagName in ('link:internal', 'link:broken'):
             node.tagName =  'code'
-        if node.tagName in ('link:external', 'link:url'):
+        if node.tagName in ('link:external'):
             node.tagName =  'a'
             node.setAttribute('href', getText(node.childNodes))
+        if node.tagName in ('link:url'):
+            if getText(node.childNodes)[0:4] in ('http:', 'ftp:/'):
+                node.tagName =  'a'
+                node.setAttribute('href', getText(node.childNodes))
+            else:
+                node.tagName =  'b'
         if node.tagName in ('div',):
             node.removeAttribute('version')
 
