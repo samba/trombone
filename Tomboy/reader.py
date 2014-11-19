@@ -59,18 +59,19 @@ class Note(object):
             node.tagName = 'ul'
         if node.tagName in ('list-item',):
             node.tagName =  'li'
-        if node.tagName in ('strikethrough'):
+            node.removeAttribute('dir')
+        if node.tagName in ('strikethrough',):
             node.tagName =  'strike'
         if node.tagName in ('bold',):
             node.tagName =  'b'
         if node.tagName in ('italic',):
             node.tagName =  'i'
-        if node.tagName in ('link:internal', 'link:broken'):
+        if node.tagName in ('link:internal', 'link:broken',):
             node.tagName =  'code'
-        if node.tagName in ('link:external'):
+        if node.tagName in ('link:external',):
             node.tagName =  'a'
             node.setAttribute('href', getText(node.childNodes))
-        if node.tagName in ('link:url'):
+        if node.tagName in ('link:url',):
             if getText(node.childNodes).startsWith('http:') or \
                     getText(node.childNodes).startsWith('ftp:'):
                 node.tagName =  'a'
