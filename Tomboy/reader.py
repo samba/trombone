@@ -79,6 +79,7 @@ class Note(object):
             node.setAttribute('href', getText(node.childNodes))
         if node.tagName in ('link:url',):
             if getText(node.childNodes).startswith('http:') or \
+                    getText(node.childNodes).startswith('https:') or \
                     getText(node.childNodes).startswith('ftp:'):
                 node.tagName =  'a'
                 node.setAttribute('href', getText(node.childNodes))
