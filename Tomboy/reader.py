@@ -68,6 +68,10 @@ class Note(object):
             node.tagName =  'b'
         if node.tagName in ('italic',):
             node.tagName =  'i'
+        if node.tagName in ('underline',):
+            node.tagName =  'u'
+        if node.tagName in ('monospace',):
+            node.tagName =  'tt'
         if node.tagName in ('link:internal', 'link:broken',):
             node.tagName =  'code'
         if node.tagName in ('link:external',):
@@ -81,7 +85,14 @@ class Note(object):
             else:
                 node.tagName =  'b'
         if node.tagName.startswith('size:'):
-            node.tagName = node.tagName[5:]
+            sizeStr = node.tagName[5:]
+            node.tagName = 'font'
+            if sizeStr is 'small':
+                node.setAttribute('size', '-1')
+            else if sizeStr is 'large':
+                node.setAttribute('size', '+1')
+            else if sizeStr is 'huge':
+                node.setAttribute('size', '+2')
 
         for i in node.childNodes:
             if i.nodeType == i.ELEMENT_NODE:
