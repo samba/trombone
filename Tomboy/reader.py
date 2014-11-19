@@ -54,24 +54,46 @@ class Note(object):
             return node
         if node.tagName in ('note-content',):
             node.tagName = 'div'
+            if node.hasAttribute('version'):
+                node.removeAttribute('version')
         if node.tagName in ('list',):
             node.tagName = 'ul'
         if node.tagName in ('list-item',):
             node.tagName =  'li'
-        if node.tagName in ('strikethrough'):
+            if node.hasAttribute('dir'):
+                node.removeAttribute('dir')
+        if node.tagName in ('strikethrough',):
             node.tagName =  'strike'
-        if node.tagName in ('bold',):
+        if node.tagName in ('bold', 'highlight',):
             node.tagName =  'b'
-        if node.tagName in ('italic',):
+        if node.tagName in ('italic', 'datetime',):
             node.tagName =  'i'
-        if node.tagName in ('link:internal', 'link:broken'):
+        if node.tagName in ('underline',):
+            node.tagName =  'u'
+        if node.tagName in ('monospace',):
+            node.tagName =  'tt'
+        if node.tagName in ('link:internal', 'link:broken',):
             node.tagName =  'code'
-        if node.tagName in ('link:external', 'link:url'):
+        if node.tagName in ('link:external',):
             node.tagName =  'a'
             node.setAttribute('href', getText(node.childNodes))
-
+        if node.tagName in ('link:url',):
+            if getText(node.childNodes).startswith('http:') or \
+                    getText(node.childNodes).startswith('https:') or \
+                    getText(node.childNodes).startswith('ftp:'):
+                node.tagName =  'a'
+                node.setAttribute('href', getText(node.childNodes))
+            else:
+                node.tagName =  'b'
         if node.tagName.startswith('size:'):
-            node.tagName = node.tagName[5:]
+            sizeStr = node.tagName[5:]
+            node.tagName = 'font'
+            if sizeStr is 'small':
+                node.setAttribute('size', '-1')
+            elif sizeStr is 'large':
+                node.setAttribute('size', '+1')
+            elif sizeStr is 'huge':
+                node.setAttribute('size', '+2')
 
         for i in node.childNodes:
             if i.nodeType == i.ELEMENT_NODE:

@@ -17,6 +17,7 @@ class Note(object):
     RE_SECTION_BREAKS = re.compile(r'(?mu)\n\n(.*)\n\n')
     RE_NEWLINE = re.compile(r'\n')
     RE_TABSPACING = re.compile(r'\t')
+    RE_AMP = re.compile(r'&')
 
     @classmethod
     def adjustWhitespace(cls, content):
@@ -35,7 +36,7 @@ class Note(object):
         update_time = self.lastchange.strftime(self.ENML_DATE)
 
         yield '<note>\n'
-        yield '<title>' + self.title + '</title>\n'
+        yield '<title>' + self.RE_AMP.sub('&amp;', self.title) + '</title>\n'
         yield '<content><![CDATA['
         yield '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
         yield '<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">\n'
