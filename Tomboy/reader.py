@@ -64,9 +64,9 @@ class Note(object):
                 node.removeAttribute('dir')
         if node.tagName in ('strikethrough',):
             node.tagName =  'strike'
-        if node.tagName in ('bold',):
+        if node.tagName in ('bold', 'highlight',):
             node.tagName =  'b'
-        if node.tagName in ('italic',):
+        if node.tagName in ('italic', 'datetime',):
             node.tagName =  'i'
         if node.tagName in ('underline',):
             node.tagName =  'u'
@@ -89,9 +89,9 @@ class Note(object):
             node.tagName = 'font'
             if sizeStr is 'small':
                 node.setAttribute('size', '-1')
-            else if sizeStr is 'large':
+            elif sizeStr is 'large':
                 node.setAttribute('size', '+1')
-            else if sizeStr is 'huge':
+            elif sizeStr is 'huge':
                 node.setAttribute('size', '+2')
 
         for i in node.childNodes:
