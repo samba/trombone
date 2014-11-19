@@ -54,6 +54,7 @@ class Note(object):
             return node
         if node.tagName in ('note-content',):
             node.tagName = 'div'
+            node.removeAttribute('version')
         if node.tagName in ('list',):
             node.tagName = 'ul'
         if node.tagName in ('list-item',):
@@ -76,9 +77,6 @@ class Note(object):
                 node.setAttribute('href', getText(node.childNodes))
             else:
                 node.tagName =  'b'
-        if node.tagName in ('div',):
-            node.removeAttribute('version')
-
         if node.tagName.startswith('size:'):
             node.tagName = node.tagName[5:]
 
