@@ -70,7 +70,8 @@ class Note(object):
             node.tagName =  'a'
             node.setAttribute('href', getText(node.childNodes))
         if node.tagName in ('link:url'):
-            if getText(node.childNodes)[0:4] in ('http:', 'ftp:/'):
+            if getText(node.childNodes).startsWith('http:') or \
+                    getText(node.childNodes).startsWith('ftp:'):
                 node.tagName =  'a'
                 node.setAttribute('href', getText(node.childNodes))
             else:
