@@ -69,6 +69,8 @@ class Note(object):
         if node.tagName in ('link:external', 'link:url'):
             node.tagName =  'a'
             node.setAttribute('href', getText(node.childNodes))
+        if node.tagName in ('div',):
+            node.removeAttribute('version')
 
         if node.tagName.startswith('size:'):
             node.tagName = node.tagName[5:]
