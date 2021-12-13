@@ -10,7 +10,7 @@ def main():
         print >>sys.stderr, 'Importing {0}\n'.format(filename)
         incoming = Import.Note(filename)
 
-        print >>sys.stderr, '>> Title: {0}\n'.format(incoming.title)
+        #print >>sys.stderr, '>> Title: {0}\n'.format(incoming.title)
         collection.addNote(Output.Note(
             title = incoming.title,
             lastchange = incoming.lastchange,
